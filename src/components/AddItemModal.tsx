@@ -58,7 +58,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ open, handleClose }) => {
           <>
             <Camera 
               ref={cameraRef} 
-          
+              facingMode="environment"
               errorMessages={{
                 noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
                 permissionDenied: 'Permission denied. Please refresh and give camera permission.',
