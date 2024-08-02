@@ -1,6 +1,6 @@
 // components/AddItemModal.tsx
 import { useState, useRef } from 'react';
-import { Box, Button, Modal, TextField, Typography } from '@mui/material';
+import { Box, Button, Modal, TextField, Typography, CircularProgress } from '@mui/material';
 import { db } from '../firebaseConfig';
 import { addDoc, collection } from 'firebase/firestore';
 import { Item } from '../types/Items';
@@ -17,6 +17,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ open, handleClose }) => {
   const [image, setImage] = useState<string | null>(null);
   const [capturing, setCapturing] = useState<boolean>(false);
   const cameraRef = useRef<any>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleTakePhoto = () => {
     if (cameraRef.current) {
@@ -32,6 +33,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ open, handleClose }) => {
   };
 
   const handleAddItem = async () => {
+    setLoading(true); 
     try {
       const newItem: Omit<Item, 'id'> = {
         name,
@@ -51,8 +53,8 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ open, handleClose }) => {
         <Typography variant="h6" component="h2">
           Add Item
         </Typography>
-        <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth margin="normal" />
-        <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} fullWidth margin="normal" />
+        <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth margin="normal" required />
+        <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} fullWidth margin="normal" required/>
         
         {capturing ? (
           <>
@@ -81,9 +83,9 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ open, handleClose }) => {
             <Button onClick={handleRetakePhoto} variant="contained" sx={{ mt: 2 }}>
               Take Image
             </Button>
-            <Button onClick={handleAddItem} variant="contained" sx={{ mt: 2 , ml:2}}>
-              Add Item
-            </Button>
+            <Button onClick={handleAddItem} variant="contained" sx={{ mt: 2 }}>
+          {loading ? <CircularProgress size={24} /> : 'Add Item'} {/* Show loader if loading */}
+        </Button>
           </>
         )}
       </Box>

@@ -40,7 +40,6 @@ const Items = () => {
   );
 
   fetchItems();
-
   return (
     
     <Box sx={{ mt: 2 }}>
