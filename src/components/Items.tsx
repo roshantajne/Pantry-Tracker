@@ -4,12 +4,14 @@ import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firesto
 import { db } from '../firebaseConfig';
 import { Box, Button, Card, CardContent, CardMedia, TextField, Typography, Modal, Grid } from '@mui/material';
 import { Item } from '../types/Items';
+import AddItemModal from './AddItemModal';
 
 const Items = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openAddModal, setOpenAddModal] = useState(false);
 
   const fetchItems = async () => {
     const querySnapshot = await getDocs(collection(db, 'items'));
@@ -39,11 +41,26 @@ const Items = () => {
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  fetchItems();
+  const handleAddItem = () => {
+    setOpenAddModal(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setOpenAddModal(false);
+    fetchItems();
+  };
+
+  // const refetchItems = async () => {
+  //   await fetchItems();
+  // };
+
   return (
     
     <Box sx={{ mt: 2 }}>
       <TextField label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} fullWidth margin="dense"/>
+
+      <Button onClick={handleAddItem} variant="contained" sx={{ mb: 2, mt:2 }}>Add Item</Button>
+
       <Grid container spacing={2} marginTop={5}>
         {filteredItems.map((item) => (
           <Grid item xs={12} sm={6} md={4} lg={2.4} key={item.id}>
@@ -77,6 +94,7 @@ const Items = () => {
           </Grid>
         ))}
       </Grid>
+      <AddItemModal open={openAddModal} handleClose={handleCloseAddModal} />
       {selectedItem && (
         <Modal open={openEditModal} onClose={() => setOpenEditModal(false)}>
           <Box sx={{ ...modalStyle }}>

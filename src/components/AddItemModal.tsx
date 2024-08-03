@@ -46,7 +46,8 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ open, handleClose }) => {
       console.error('Error adding document: ', e);
     }
     finally {
-      setLoading(false); // Set loading to false after operation
+      setLoading(false);
+       // Set loading to false after operation
     }
   };
 

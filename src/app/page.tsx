@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Box, Button, Container } from '@mui/material';
 import Header from '../components/Header';
-import AddItemModal from '../components/AddItemModal';
+// import AddItemModal from '../components/AddItemModal';
 import Items from '../components/Items';
 
 import React from 'react';
@@ -36,10 +36,10 @@ const Home = () => {
       <CssBaseline /> 
       <Header />
       <Container>
-        <Button variant="contained" onClick={handleOpenAddModal} sx={{ mt: 2 }}>
+        {/* <Button variant="contained" onClick={handleOpenAddModal} sx={{ mt: 2 }}>
           Add Item
         </Button>
-        <AddItemModal open={openAddModal} handleClose={handleCloseAddModal} />
+        <AddItemModal open={openAddModal} handleClose={handleCloseAddModal} /> */}
         <Items />
       </Container>
       </ThemeProvider>
